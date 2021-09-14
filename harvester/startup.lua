@@ -14,6 +14,6 @@ preinit()
 local harvester = require 'harvester'
 
 local status = harvester.main()
-if ~status then
+if status == false then
     io.write("Program ended with an error")
 end
