@@ -27,3 +27,5 @@ function Main()
         return false
     end
 end
+
+return {Main=Main}

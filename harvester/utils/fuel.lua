@@ -1,5 +1,5 @@
 -- Refuels the turtle if needed, taking logs in case the fuel slot is empty
-function Refuel(limit)
+local refuel = function(limit)
     local fuelAmount = turtle.getFuelLevel()
     if fuelAmount < limit then
         turtle.select(FUEL_SLOT)
@@ -13,3 +13,5 @@ function Refuel(limit)
     end
     turtle.select(1)
 end
+
+return {refuel=refuel}
