@@ -23,7 +23,7 @@ local function init()
 end
 
 function Main()
-    if ~init() then
+    if init() == false then
         return false
     end
 end
