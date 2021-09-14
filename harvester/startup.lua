@@ -12,7 +12,7 @@ local function preinit()
 end
 
 preinit()
-local harvester = require 'harvester'
+local harvester = require 'harvester.lua'
 
 local status = harvester.main()
 if status == false then
