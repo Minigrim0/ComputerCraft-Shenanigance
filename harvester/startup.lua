@@ -1,12 +1,16 @@
-FIRST_SEED = ""
-FIRST_PLANT = ""
+local movement = require "utils/movement"
 
-SECOND_SEED = ""
-SECOND_PLANT = ""
+START_POS = {0, 0, 0}  -- SET This with the turtle's initial position
 
+local function preinit()
+    if io.open("utils/fuel.lua", "r") == nil then
+        shell.run("wget", "")
+    end
+end
 
 -- Checks that the turtle is in the right place
 local function init()
+    movement.MoveTo(START_POS)
     local success, bloc_down = turtle.inspectDown()
     if success and bloc_down.name == "minecraft:gravel" then
         local _success, bloc_front = turtle.inspect()
