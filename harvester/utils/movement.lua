@@ -44,8 +44,37 @@ local orientation = function()
     end
 end
 
+local turnTo = function(current_orientation, wanted_orientation)
+    local directions = {"N", "E", "S", "W"}
+    local index = 1
+    while directions[index] ~= current_orientation do
+        index = index + 1
+    end
+
+    while current_orientation ~= wanted_orientation do
+        turtle.turnLeft()
+        index = index + 1
+        if index > 4 then
+            index = 1
+        end
+        current_orientation = directions[index]
+    end
+end
+
 local moveTo = function(position)
     local turtle_orientation = orientation()
+    local posx, posy, posz = gps.locate()
+    -- +x -> E
+    -- -x -> O
+    -- +z -> S
+    -- -z -> N
+
+    local delta_x = posx - position[1]
+    local delta_z = posz - position[3]
+
+    if delta_x > 0 then -- Must go East
+
+    end
 end
 
 return {
