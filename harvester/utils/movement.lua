@@ -36,7 +36,7 @@ local orientation = function()
     if pos_x < npos_x then
         return "E"
     elseif npos_x < pos_x then
-        return "O"
+        return "W"
     elseif pos_z < npos_z then
         return "S"
     elseif npos_z < pos_z then
