@@ -47,13 +47,32 @@ local function reactorData(data)
     screen.write(title)
 
     screen.setCursorPos(2, 3)
-    if data["reactorOn"] then
+    if data.reactorOn then
         screen.setBackgroundColor(colours.green)
         screen.write("On ")
     else
         screen.setBackgroundColor(colours.red)
         screen.write("Off")
     end
+
+    screen.setCursorPos(2, 4)
+    screen.setBackgroundColor(colours.black)
+    screen.setTextColor(colours.white)
+    screen.write("Battery")
+
+    for x=10,25 do
+        if (data.percentStored) * 15/100 > x - 10 then
+            screen.blit(" ", "0", "e")
+        else
+            screen.blit(" ", "0", "f")
+        end
+    end
+
+    screen.setCursorPos(26, 4)
+    data.percentStored = math.floor(data.percentStored+0.5)
+    screen.wraite("   %")
+    screen.setCursorPos(26, 4)
+    screen.write(data.percentStored)
 end
 
 local function showScreen(data)
@@ -61,10 +80,9 @@ local function showScreen(data)
     local width, height = screen.getSize()
     screen.setCursorPos(width, height)
 
-
     if screenOn then
         screen.blit(" ", "0", "d")
-        reactorData()
+        reactorData(data)
     else
         screen.blit(" ", "0", "e")
     end
@@ -75,14 +93,20 @@ local function broadcastReactorData(data)
 end
 
 local function handleEvents()
-    local event, peripheral_name, x, y = os.pullEvent("monitor_touch")
-    local position = {x=x, y=y}
-    if collide(position, screenOnOffButton) then
-        screenOn = not screenOn
-    end
+    local timeout = os.startTimer(1)
+    local event = {os.pullEvent()}
+    local position = {x=event[3], y=event[4]}
 
-    if collide(position, reactorOnOffButton) then
-        reactor.setActive(not reactor.active())
+    if event[1] == "monitor_touch" then
+        if collide(position, screenOnOffButton) then
+            screenOn = not screenOn
+        end
+
+        if collide(position, reactorOnOffButton) then
+            reactor.setActive(not reactor.active())
+        end
+    elseif event[1] == "timer" and event[2] == timeout then
+        return
     end
 end
 
