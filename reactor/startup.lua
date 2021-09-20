@@ -92,6 +92,15 @@ local function broadcastReactorData(data)
 
 end
 
+-- Shuts the reactor down when the battery hits a certain percentage, and back up when it hits another
+local function updateStates(data)
+    if data.percentStored > 95 and data.reactorOn ==true then
+        reactor.setActive(false)
+    elseif data.percentStored <= 75 and data.reactorOn == false then
+        reactor.setActive(true)
+    end
+end
+
 local function handleEvents()
     local timeout = os.startTimer(1)
     local event = {os.pullEvent()}
@@ -115,6 +124,7 @@ function Main()
         local data = getReactorData()
         showScreen(data)
         broadcastReactorData(data)
+        updateStates(data)
         handleEvents()
     end
 end
