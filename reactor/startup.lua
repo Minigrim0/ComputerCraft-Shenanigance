@@ -70,7 +70,7 @@ local function reactorData(data)
 
     screen.setCursorPos(26, 4)
     data.percentStored = math.floor(data.percentStored+0.5)
-    screen.wraite("   %")
+    screen.write("   %")
     screen.setCursorPos(26, 4)
     screen.write(data.percentStored)
 end
