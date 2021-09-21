@@ -3,11 +3,31 @@ local screen = peripheral.wrap("top")
 
 -- Buttons
 screenOnOffButton = {x=29,y=12,w=1,h=1}
-reactorOnOffButton = {x=2,y=3,w=3,h=1}
+reactorOnOffButton = {x=1,y=3,w=3,h=1}
 
 -- Whether to show information on the screen or not
 local screenOn = true
 local running = true
+
+local function drawProgress(position, length, percent, axis, onColor, offColor)
+    axis = axis or "h"
+    onColor = onColor or "e"
+    offColor = offColor or "f"
+
+    for x=0,length do
+        if axis == "h" then
+            screen.setCursorPos(position.x + x, position.y)
+        elseif axis == "v" then
+            screen.setCursorPos(position.x, position.y - x)
+        end
+
+        if percent * length/100 > x then
+            screen.blit(" ", "0", onColor)
+        else
+            screen.blit(" ", "0", offColor)
+        end
+    end
+end
 
 local function collide(position, button)
     if position.x >= button.x and position.x < button.x + button.w then
@@ -46,7 +66,7 @@ local function reactorData(data)
     screen.setTextColor(colours.yellow)
     screen.write(title)
 
-    screen.setCursorPos(2, 3)
+    screen.setCursorPos(1, 3)
     if data.reactorOn then
         screen.setBackgroundColor(colours.green)
         screen.write("On ")
@@ -55,24 +75,16 @@ local function reactorData(data)
         screen.write("Off")
     end
 
-    screen.setCursorPos(2, 4)
+    screen.setCursorPos(1, 4)
     screen.setBackgroundColor(colours.black)
     screen.setTextColor(colours.white)
     screen.write("Battery")
 
-    for x=10,25 do
-        if (data.percentStored) * 15/100 > x - 10 then
-            screen.blit(" ", "0", "e")
-        else
-            screen.blit(" ", "0", "f")
-        end
-    end
+    drawProgress({x=10,y=4}, 15, data.percentStored, "h", "e", "f")
 
-    screen.setCursorPos(26, 4)
     data.percentStored = math.floor(data.percentStored+0.5)
-    screen.write("   %")
     screen.setCursorPos(26, 4)
-    screen.write(data.percentStored)
+    screen.write(data.percentStored .. "%  ")
 end
 
 local function showScreen(data)
