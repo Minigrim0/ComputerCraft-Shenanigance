@@ -1,3 +1,6 @@
+FUEL_SLOT = 16
+
+
 -- Refuels the turtle if needed, taking logs in case the fuel slot is empty
 local refuel = function(limit)
     local fuelAmount = turtle.getFuelLevel()
