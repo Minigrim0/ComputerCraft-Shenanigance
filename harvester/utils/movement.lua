@@ -6,7 +6,7 @@ local move = function(direction, amount)
         turtle.turnLeft()
         turtle.turnLeft()
         for _step=1,amount do
-            fuel.Refuel(50)
+            fuel.refuel(50)
             turtle.forward()
         end
         turtle.turnLeft()
@@ -100,7 +100,7 @@ local moveTo = function(position)
 end
 
 return {
-    MoveTo=moveTo,
-    Orientation=orientation,
+    moveTo=moveTo,
+    orientation=orientation,
     move=move
 }

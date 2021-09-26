@@ -3,7 +3,7 @@ local movement = require "utils/movement"
 
 -- Checks that the turtle is in the right place
 local function init()
-    movement.MoveTo(START_POS)
+    movement.moveTo(START_POS)
     local success, bloc_down = turtle.inspectDown()
     if success and bloc_down.name == "minecraft:gravel" then
         local _success, bloc_front = turtle.inspect()
