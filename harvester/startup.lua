@@ -12,9 +12,9 @@ local function preinit()
 end
 
 preinit()
-local harvester = require 'harvester.lua'
+local harvester = require 'harvester'
 
-local status = harvester.main()
+local status = harvester.Main()
 if status == false then
     io.write("Program ended with an error")
 end
